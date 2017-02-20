@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/layout :: common-header(_)"/>
+<body>
+<div th:replace="commons/layout :: navigation"/>
+<div class="container">
+    <div class="row">
+        <div th:if="${isRoleManager}">
+            У вас права ROLE_MANAGER
+        </div>
+        <div th:if="${isTypeManager}">
+            Вы — менеджер!
+        </div>
+        <hr/>
+
+    </div>
+</div>
+<div th:replace="commons/layout :: copyright"/>
+<div th:replace="commons/layout :: common-bottom-scripts"/>
+</body>
+</html>

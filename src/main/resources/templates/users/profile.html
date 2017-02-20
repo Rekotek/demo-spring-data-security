@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+<head th:replace="commons/layout :: common-header(~{::title})">
+    <title th:text="${#authentication.principal.fullName}">Профиль</title>
+</head>
+<body>
+<div th:replace="commons/layout :: navigation"/>
+<div class="container">
+    <div class="row main">
+        <h5>Класс объекта UserDetail в SecurityContextHolder.getContext().getAuthentication().getPrincipal():</h5>
+        <p><span th:text="${userClassName}"/></p>
+        <hr/>
+        <div class="main-login main-center">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-info">Профиль пользователя
+                        <span sec:authentication="principal.username"/>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" th:action="@{/users/profile}" th:object="${user}"
+                          method="post">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+
+                        <div class="form-group">
+                            <label for="surname" class="col-sm-3 control-label">Фамилия</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Фамилия"
+                                       id="surname"
+                                       required="required"
+                                       autofocus="autofocus"
+                                       th:field="*{surname}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstName" class="col-sm-3 control-label">Имя</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Имя"
+                                       id="firstName"
+                                       required="required"
+                                       th:field="*{firstName}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secondName" class="col-sm-3 control-label">Отчество</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Отчество"
+                                       id="secondName"
+                                       required="required"
+                                       th:field="*{secondName}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <label class="radio-inline"
+                                       th:each="val : ${genderValues}">
+                                    <input type="radio" th:field="*{gender}" th:value="${val}"/>
+                                    <span th:text="${genderHelper.getGenderString(val)}"/>
+                                </label></div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="well">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <h5>Прописка</h5>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="addr1" class="col-sm-3 control-label">Адрес 1</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Адрес 1"
+                                               id="addr1"
+                                               th:field="*{passportAddress.addressLine1}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="addr2" class="col-sm-3 control-label">Адрес 2</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Адрес 2"
+                                               id="addr2"
+                                               th:field="*{passportAddress.addressLine2}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city" class="col-sm-3 control-label">Город</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Город"
+                                               id="city"
+                                               th:field="*{passportAddress.city}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="postCode" class="col-sm-3 control-label">Индекс</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Почтовый индекс"
+                                               id="postCode"
+                                               th:field="*{passportAddress.postCode}"/>
+                                    </div>
+                                </div>
+                            </div> <!-- .well -->
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="well">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <h5>Фактический адрес</h5>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="addr3" class="col-sm-3 control-label">Адрес 1</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Адрес 1"
+                                               id="addr3"
+                                               th:field="*{shippingAddress.addressLine1}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="addr4" class="col-sm-3 control-label">Адрес 2</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Адрес 2"
+                                               id="addr4"
+                                               th:field="*{shippingAddress.addressLine2}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city2" class="col-sm-3 control-label">Город</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Город"
+                                               id="city2"
+                                               th:field="*{shippingAddress.city}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="postCode2" class="col-sm-3 control-label">Индекс</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Почтовый индекс"
+                                               id="postCode2"
+                                               th:field="*{shippingAddress.postCode}"/>
+                                    </div>
+                                </div>
+                            </div> <!-- .well -->
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-md-offset-1 col-sm-4 col-md-5 ">
+                                <button type="submit" class="btn btn-primary">
+                                    Save changes
+                                </button>
+                            </div>
+                            <div class="col-sm-offset-1 col-md-offset-1 col-sm-4 col-md-5">
+                                <button type="reset" class="btn">Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="commons/layout :: copyright"/>
+<div th:replace="commons/layout :: common-bottom-scripts"/>
+</body>
+</html>

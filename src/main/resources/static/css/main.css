@@ -1,0 +1,23 @@
+/*body {*/
+    /*background-color: #6264f7;*/
+/*}*/
+
+body {
+    background: url("../images/background.png") repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.main-center {
+    margin: 0 auto;
+    padding: 20px;
+    /*max-width: 400px;*/
+    min-width: 400px;
+    border: #1919f7 1px;
+}
+
+.panel {
+    margin-top: 20px;
+}

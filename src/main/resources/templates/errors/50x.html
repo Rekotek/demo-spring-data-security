@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="commons/layout :: common-header(~{::title})"/>
+<title>Internal Server Error!</title>
+</head>
+<body>
+<div th:replace="commons/layout :: navigation"/>
+
+<div class="container">
+    <h2>Internal Server Errrrror occured!</h2>
+    <hr/>
+    <h4>Reason:</h4>
+    <div th:text="${error}"/>
+
+    <div th:if="${#strings.contains(#authentication.principal.authorities,'ADMIN')}">
+        <hr/>
+        <h4>Stack trace:</h4>
+        <div th:utext="${stack}"/>
+    </div>
+</div>
+
+<div th:replace="commons/layout :: copyright"/>
+<div th:replace="commons/layout :: common-bottom-scripts"/>
+</body>
+</html>
