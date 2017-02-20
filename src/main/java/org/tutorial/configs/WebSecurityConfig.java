@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
+        return new BCryptPasswordEncoder(6, new SecureRandom(SALT.getBytes()));
     }
 
 

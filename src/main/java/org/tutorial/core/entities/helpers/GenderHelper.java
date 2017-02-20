@@ -9,14 +9,14 @@ public class GenderHelper
     public static String getGenderString(Gender gender)
     {
         switch (gender) {
-            case UNKNOWN:
-                return "Неизвестно";
+            case HIPSTER:
+                return "Хипстер";
             case MAN:
                 return "Мужчина";
             case WOMAN:
                 return "Женщина";
             default:
-                return "Хипстер";
+                return "Неизвестно";
         }
     }
 }

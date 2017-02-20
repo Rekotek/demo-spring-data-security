@@ -37,7 +37,7 @@ public class ExceptionsController
         return "errors/50x";
     }
 
-    public static String displayStackTrace(Throwable t) {
+    private static String displayStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         t.printStackTrace(pw);

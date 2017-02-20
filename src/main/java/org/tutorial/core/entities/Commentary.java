@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 /**
  * Created by taras on 07.02.17.
@@ -19,8 +20,13 @@ public class Commentary
 
     private String text;
 
+    private Date insertedDate;
+
     @ManyToOne
     private PersonCore author;
+
+    @ManyToOne
+    private Order order;
 
     public Long getId()
     {
@@ -50,5 +56,25 @@ public class Commentary
     public void setAuthor(PersonCore author)
     {
         this.author = author;
+    }
+
+    public Date getInsertedDate()
+    {
+        return insertedDate;
+    }
+
+    public void setInsertedDate(Date insertedDate)
+    {
+        this.insertedDate = insertedDate;
+    }
+
+    public Order getOrder()
+    {
+        return order;
+    }
+
+    public void setOrder(Order order)
+    {
+        this.order = order;
     }
 }

@@ -1,7 +1,11 @@
 package org.tutorial.core.entities.personalities;
 
+import org.tutorial.core.entities.OrderTask;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * Created by taras on 06.02.17.
@@ -16,6 +20,9 @@ public class Employee extends LoggableUser
 
     @ManyToOne
     private Manager manager;
+
+    @OneToMany(mappedBy = "employee")
+    private List<OrderTask> orderTaskList;
 
     public String getWorkCondition()
     {
