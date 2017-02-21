@@ -1,4 +1,4 @@
-package org.tutorial.reposotories;
+package org.tutorial.core.reposotories;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

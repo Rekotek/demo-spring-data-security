@@ -4,9 +4,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
-
 /**
  * Created by taras on 06.02.17.
  */
@@ -24,7 +21,7 @@ public class LoggableUser extends PersonCore
     private boolean inStaff;
     private boolean active;
 
-    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles;
 

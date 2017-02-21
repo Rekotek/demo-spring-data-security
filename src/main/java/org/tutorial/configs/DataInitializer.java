@@ -43,12 +43,18 @@ public class DataInitializer
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private Role roleAdmin;
+    private Role roleCustomer;
+    private Role roleManager;
+    private Role roleEmployee;
+
 
     @PostConstruct
     @Transactional
     public void loadInitialData()
     {
-        loadRoles();
+        initializeRoles();
+
         loadManagers();
         loadAdmin();
         loadEmployees();
@@ -63,7 +69,7 @@ public class DataInitializer
             initLoggablePerson(employee,
                     "empl_" + i,
                     bCryptPasswordEncoder.encode("www"),
-                    new RoleName[] {ROLE_EMPLOYEE});
+                    new Role[] {roleEmployee});
 
             employeeRepository.save(employee);
         }
@@ -78,23 +84,26 @@ public class DataInitializer
         initLoggablePerson(admin,
                 "admin",
                 bCryptPasswordEncoder.encode("aaa"),
-                new RoleName[] {ROLE_ADMIN});
+                new Role[] {roleAdmin});
 
         adminRepository.save(admin);
     }
 
-    private void loadRoles()
+    private void initializeRoles()
     {
-        Role roleAdmin = new Role();
+        roleAdmin = new Role();
         roleAdmin.setRoleName(ROLE_ADMIN);
 
-        Role roleUser = new Role();
-        roleUser.setRoleName(ROLE_CUSTOMER);
+        roleCustomer = new Role();
+        roleCustomer.setRoleName(ROLE_CUSTOMER);
 
-        Role roleManager = new Role();
+        roleManager = new Role();
         roleManager.setRoleName(ROLE_MANAGER);
 
-        roleRepository.save(asList(roleAdmin, roleManager, roleUser));
+        roleEmployee = new Role();
+        roleEmployee.setRoleName(ROLE_EMPLOYEE);
+
+        roleRepository.save(asList(roleAdmin, roleManager, roleCustomer, roleEmployee));
     }
 
     private void loadManagers()
@@ -109,7 +118,7 @@ public class DataInitializer
             initLoggablePerson(manager,
                     "manager_" + i,
                     bCryptPasswordEncoder.encode("qqq"),
-                    new RoleName[] {ROLE_MANAGER, ROLE_CUSTOMER});
+                    new Role[] {roleManager, roleEmployee});
 
             manager.setActive(true);
             manager.setInStaff(true);
@@ -121,24 +130,20 @@ public class DataInitializer
         }
     }
 
-    private static void initLoggablePerson(LoggableUser person, String login, String password, RoleName[] roles)
+    private void initLoggablePerson(LoggableUser person, String login, String password, Role[] roles)
     {
         person.setLogin(login);
         person.setPassword(password);
 
-        initRoles(person, roles);
+        applyRoles(person, roles);
     }
 
 
-    private static void initRoles(LoggableUser loggableUser, RoleName[] roleNames)
+    private void applyRoles(LoggableUser loggableUser, Role[] roles)
     {
-        Set<Role> roles = new HashSet<>();
+        Set<Role> roleSet = new HashSet<>(asList(roles));
 
-        for (RoleName roleName: roleNames) {
-            roles.add( new Role(roleName));
-        }
-
-        loggableUser.setRoles(roles);
+        loggableUser.setRoles(roleSet);
     }
 
     private static void initPersonCore(PersonCore person)

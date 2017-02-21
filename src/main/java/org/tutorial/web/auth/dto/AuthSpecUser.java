@@ -1,9 +1,9 @@
 package org.tutorial.web.auth.dto;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.Collection;
+import static org.tutorial.core.entities.personalities.RoleName.*;
 
 /**
  * Created by taras on 10.02.17.
@@ -14,29 +14,20 @@ public class AuthSpecUser extends User
     private Long id;
     private String fullName;
 
-    public AuthSpecUser(String username, String password,
-                        boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-                        boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
-                        Long id, String fullName)
-    {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        this.id = id;
-        this.fullName = fullName;
-    }
+    private boolean isRoleAdmin;
+    private boolean isRoleManager;
+    private boolean isRoleEmployee;
+    private boolean isRoleCustomer;
 
-    public AuthSpecUser(String username, String password, Collection<? extends GrantedAuthority> authorities,
-                        Long id, String fullName)
-    {
-        super(username, password, authorities);
-        this.id = id;
-        this.fullName = fullName;
-    }
-
-    public AuthSpecUser(AuthBase baseUser)
+    AuthSpecUser(AuthBase baseUser)
     {
         super(baseUser.getUsername(), baseUser.getPassword(), baseUser.getRoles());
         this.id = baseUser.getId();
         this.fullName = baseUser.getFullName();
+        this.isRoleAdmin = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_ADMIN.toString()));
+        this.isRoleManager = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_MANAGER.toString()));
+        this.isRoleEmployee = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_EMPLOYEE.toString()));
+        this.isRoleCustomer = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_CUSTOMER.toString()));
     }
 
     public Long getId() {
@@ -56,5 +47,25 @@ public class AuthSpecUser extends User
     public void setFullName(String fullName)
     {
         this.fullName = fullName;
+    }
+
+    public boolean isRoleAdmin()
+    {
+        return isRoleAdmin;
+    }
+
+    public boolean isRoleManager()
+    {
+        return isRoleManager;
+    }
+
+    public boolean isRoleEmployee()
+    {
+        return isRoleEmployee;
+    }
+
+    public boolean isRoleCustomer()
+    {
+        return isRoleCustomer;
     }
 }
