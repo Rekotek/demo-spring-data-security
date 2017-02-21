@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/security/tags">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:fragment="common-header(title)">
     <title th:replace="${title}">Sweet Home Inc.</title>
 
@@ -32,56 +32,70 @@
 </head>
 
 <body>
-    <div th:fragment="navigation">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="navbar-brand navbar-brand-left">Sweet Home Inc.</div>
-                </div>
+<div th:fragment="navigation">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand navbar-brand-left"><a href="/index.html" th:href="@{/index.html}">Sweet Home Inc.</a></div>
+            </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-brand-centered">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Pagination</a></li>
-                        <li><a href="#">List of notes</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user fa" aria-hidden="true"></i>
-                                <span sec:authentication="principal.fullName"></span>
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="/users/userId" th:href="@{'/users/' + ${#authentication.principal.id}}">Профиль</a></li>
-                                <li class="divider"></li>
-                                <li><a href="/logout" th:href="@{/logout}">Выйти</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-    </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-brand-centered">
+                <ul class="nav navbar-nav navbar-right">
+                    <li sec:authorize="hasAuthority('ROLE_EMPLOYEE')">
+                        <a href="#">Задачи</a>
+                    </li>
+                    <li sec:authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_CUSTOMER', 'ROLE_EMPLOYEE')">
+                        <a href="#">Заказы</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ROLE_MANAGER')">
+                        <a href="#">Мастера</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ROLE_MANAGER')">
+                        <a href="#">Заказчики</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                        <a href="#">Персонал</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user fa" aria-hidden="true"></i>
+                            <span sec:authentication="principal.surnameWithInitials"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                                <li sec:authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')"><a href="/users/userId" th:href="@{'/users/' + ${#authentication.principal.id}}">Профиль</a>
+                                </li>
+                                <li  sec:authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')" class="divider"></li>
+                            <li><a href="/logout" th:href="@{/logout}">Выйти</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
 
-    <footer th:fragment="copyright">
-        <div class="text-center bg-info" style="margin-top: 50px">&copy; 2017 Sweet Home Technologies, Inc.</div>
-    </footer>
+<footer th:fragment="copyright">
+    <div class="text-center bg-info" style="margin-top: 50px">&copy; 2017 Sweet Home Technologies, Inc.</div>
+</footer>
 
-    <div th:fragment="common-bottom-scripts">
-        <script src="/js/jquery.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/jquery.easing.min.js"></script>
-        <script src="/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="/js/bootbox.min.js"></script>
-        <script src="/js/jquery.dataTables.min.js"></script>
-        <script src="/js/dataTables.bootstrap.min.js"></script>
-    </div>
+<div th:fragment="common-bottom-scripts">
+    <script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="/js/jquery.easing.min.js" th:src="@{/js/jquery.easing.min.js}"></script>
+    <script src="/js/bootstrap-datetimepicker.min.js" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <script src="/js/bootbox.min.js" th:src="@{/js/bootbox.min.js}"></script>
+    <script src="/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
+    <script src="/js/dataTables.bootstrap.min.js" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+</div>
 
 </body>
 </html>

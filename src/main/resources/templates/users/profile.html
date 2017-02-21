@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/security/tags">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="commons/layout :: common-header(~{::title})">
     <title th:text="${#authentication.principal.fullName}">Профиль</title>
 </head>
@@ -11,6 +11,7 @@
         <h5>Класс объекта UserDetail в SecurityContextHolder.getContext().getAuthentication().getPrincipal():</h5>
         <p><span th:text="${userClassName}"/></p>
         <hr/>
+
         <div class="main-login main-center">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -18,6 +19,7 @@
                         <span sec:authentication="principal.username"/>
                     </h3>
                 </div>
+
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" th:action="@{/users/profile}" th:object="${user}"
                           method="post">
@@ -156,18 +158,17 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-1 col-md-offset-1 col-sm-4 col-md-5 ">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="controls col-sm-9">
+                                <button type="submit" class="btn btn-primary my-btn-sign">
                                     Save changes
                                 </button>
-                            </div>
-                            <div class="col-sm-offset-1 col-md-offset-1 col-sm-4 col-md-5">
-                                <button type="reset" class="btn">Reset
+                                <button type="reset" class="btn my-btn-sign">Reset
                                 </button>
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> <!-- Panel body -->
+
             </div>
         </div>
     </div>

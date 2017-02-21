@@ -26,7 +26,7 @@ public class Commentary
     private PersonCore author;
 
     @ManyToOne
-    private Order order;
+    private CustomerOrder customerOrder;
 
     public Long getId()
     {
@@ -68,13 +68,13 @@ public class Commentary
         this.insertedDate = insertedDate;
     }
 
-    public Order getOrder()
+    public CustomerOrder getCustomerOrder()
     {
-        return order;
+        return customerOrder;
     }
 
-    public void setOrder(Order order)
+    public void setCustomerOrder(CustomerOrder customerOrder)
     {
-        this.order = order;
+        this.customerOrder = customerOrder;
     }
 }

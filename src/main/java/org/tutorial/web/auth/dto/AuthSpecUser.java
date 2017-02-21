@@ -13,6 +13,7 @@ public class AuthSpecUser extends User
 {
     private Long id;
     private String fullName;
+    private String surnameWithInitials;
 
     private boolean isRoleAdmin;
     private boolean isRoleManager;
@@ -24,6 +25,8 @@ public class AuthSpecUser extends User
         super(baseUser.getUsername(), baseUser.getPassword(), baseUser.getRoles());
         this.id = baseUser.getId();
         this.fullName = baseUser.getFullName();
+        this.surnameWithInitials = baseUser.getSurnameWithInitials();
+
         this.isRoleAdmin = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_ADMIN.toString()));
         this.isRoleManager = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_MANAGER.toString()));
         this.isRoleEmployee = baseUser.getRoles().contains(new SimpleGrantedAuthority(ROLE_EMPLOYEE.toString()));
@@ -47,6 +50,16 @@ public class AuthSpecUser extends User
     public void setFullName(String fullName)
     {
         this.fullName = fullName;
+    }
+
+    public String getSurnameWithInitials()
+    {
+        return surnameWithInitials;
+    }
+
+    public void setSurnameWithInitials(String surnameWithInitials)
+    {
+        this.surnameWithInitials = surnameWithInitials;
     }
 
     public boolean isRoleAdmin()

@@ -21,8 +21,10 @@ public class OrderTask
     @Embedded
     private DatePoints datePoints;
 
+    private boolean completed = false;
+
     @ManyToOne
-    private Order order;
+    private CustomerOrder customerOrder;
 
     @ManyToOne
     private Employee employee;
@@ -67,14 +69,14 @@ public class OrderTask
         this.datePoints = datePoints;
     }
 
-    public Order getOrder()
+    public CustomerOrder getCustomerOrder()
     {
-        return order;
+        return customerOrder;
     }
 
-    public void setOrder(Order order)
+    public void setCustomerOrder(CustomerOrder customerOrder)
     {
-        this.order = order;
+        this.customerOrder = customerOrder;
     }
 
     public Employee getEmployee()
@@ -85,5 +87,15 @@ public class OrderTask
     public void setEmployee(Employee employee)
     {
         this.employee = employee;
+    }
+
+    public boolean isCompleted()
+    {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed)
+    {
+        this.completed = completed;
     }
 }

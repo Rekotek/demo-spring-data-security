@@ -11,6 +11,7 @@ import org.tutorial.core.repositories.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -25,6 +26,10 @@ import static org.tutorial.helpers.RandomChooser.getRandom;
 @Component
 public class DataInitializer
 {
+    private static final int MANAGERS_COUNT = 11;
+    private static final int EMPLOYEES_COUNT = 20;
+    private static final int CUSTOMERS_COUNT = 5;
+
     @Autowired
     private RoleRepository roleRepository;
 
@@ -39,6 +44,9 @@ public class DataInitializer
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -58,35 +66,7 @@ public class DataInitializer
         loadManagers();
         loadAdmin();
         loadEmployees();
-    }
-
-    private void loadEmployees()
-    {
-        for (int i = 0; i < 20; i++) {
-            Employee employee = new Employee();
-
-            initPersonCore(employee);
-            initLoggablePerson(employee,
-                    "empl_" + i,
-                    bCryptPasswordEncoder.encode("www"),
-                    new Role[] {roleEmployee});
-
-            employeeRepository.save(employee);
-        }
-    }
-
-    private void loadAdmin()
-    {
-        Admin admin = new Admin();
-
-        initPersonCore(admin);
-
-        initLoggablePerson(admin,
-                "admin",
-                bCryptPasswordEncoder.encode("aaa"),
-                new Role[] {roleAdmin});
-
-        adminRepository.save(admin);
+        loadCustomers();
     }
 
     private void initializeRoles()
@@ -106,13 +86,46 @@ public class DataInitializer
         roleRepository.save(asList(roleAdmin, roleManager, roleCustomer, roleEmployee));
     }
 
+    private void loadEmployees()
+    {
+        for (int i = 0; i < EMPLOYEES_COUNT; i++) {
+            Employee employee = new Employee();
+
+            initPersonCore(employee);
+            initLoggablePerson(employee,
+                    "empl_" + i,
+                    bCryptPasswordEncoder.encode("www"),
+                    new Role[] {roleEmployee});
+
+            Manager manager = getRandomManager();
+
+            employee.setManager(manager);
+
+            employeeRepository.save(employee);
+        }
+    }
+
+    private void loadAdmin()
+    {
+        Admin admin = new Admin();
+
+        initPersonCore(admin);
+
+        initLoggablePerson(admin,
+                "admin",
+                bCryptPasswordEncoder.encode("aaa"),
+                new Role[] {roleAdmin});
+
+        adminRepository.save(admin);
+    }
+
     private void loadManagers()
     {
         final String[] TITLES = {"Генерал", "Надзиратель", "Рубаха-парень", "Кризис-менеджер"};
 
-        for (int i = 1; i < 11; i++) {
+        for (int i = 0; i < MANAGERS_COUNT; i++) {
             Manager manager = new Manager();
-            
+
             initPersonCore(manager);
 
             initLoggablePerson(manager,
@@ -130,6 +143,25 @@ public class DataInitializer
         }
     }
 
+    private void loadCustomers()
+    {
+        for (int i = 0; i < CUSTOMERS_COUNT; i++) {
+            Customer customer = new Customer();
+
+            initPersonCore(customer);
+
+            initLoggablePerson(customer,
+                    "cus_" + i,
+                    bCryptPasswordEncoder.encode("zzz"),
+                    new Role[] {roleCustomer});
+
+            Manager manager = getRandomManager();
+            customer.setResponsibleManager(manager);
+
+            customerRepository.save(customer);
+        }
+    }
+
     private void initLoggablePerson(LoggableUser person, String login, String password, Role[] roles)
     {
         person.setLogin(login);
@@ -138,13 +170,13 @@ public class DataInitializer
         applyRoles(person, roles);
     }
 
-
     private void applyRoles(LoggableUser loggableUser, Role[] roles)
     {
         Set<Role> roleSet = new HashSet<>(asList(roles));
 
         loggableUser.setRoles(roleSet);
     }
+
 
     private static void initPersonCore(PersonCore person)
     {
@@ -160,8 +192,7 @@ public class DataInitializer
         person.setPassportAddress(receiveAddress());
         person.setShippingAddress(receiveAddress());
     }
-    
-    
+
     private static Address receiveAddress()
     {
         final String ADDRESSES[] = {"улица Яблочная", "бульвар Рыбный", "проспект Малиновый"};
@@ -190,5 +221,13 @@ public class DataInitializer
         phone2.setPerson(person);
 
         phoneRepository.save(asList(phone1, phone2));
+    }
+
+
+    private Manager getRandomManager()
+    {
+        Random random = new Random(System.currentTimeMillis());
+        Long managerId = (long) random.nextInt(MANAGERS_COUNT);
+        return managerRepository.findOne(managerId);
     }
 }

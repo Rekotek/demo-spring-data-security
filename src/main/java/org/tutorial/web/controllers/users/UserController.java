@@ -98,6 +98,7 @@ public class UserController
 
         AuthSpecUser authPrincipal = getLoggedUser();
         authPrincipal.setFullName(AuthSpecPersonFabric.buildFullName(originalUser));
+        authPrincipal.setSurnameWithInitials(AuthSpecPersonFabric.buildSurnameWithInitials(originalUser));
 
         return "redirect:/index";
     }

@@ -21,3 +21,11 @@ body {
 .panel {
     margin-top: 20px;
 }
+
+.my-btn-sign {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    max-width: 200px;
+    min-width: 200px;
+}

@@ -16,18 +16,21 @@ public class AuthBase
 
     private Long id;
     private String fullName;
+    private String surnameWithInitials;
 
     public AuthBase(String username,
                     String password,
                     Set<GrantedAuthority> roles,
                     Long id,
-                    String fullName)
+                    String fullName,
+                    String surnameWithInitials)
     {
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.id = id;
         this.fullName = fullName;
+        this.surnameWithInitials = surnameWithInitials;
     }
 
     public String getUsername()
@@ -53,5 +56,10 @@ public class AuthBase
     public String getFullName()
     {
         return fullName;
+    }
+
+    public String getSurnameWithInitials()
+    {
+        return surnameWithInitials;
     }
 }

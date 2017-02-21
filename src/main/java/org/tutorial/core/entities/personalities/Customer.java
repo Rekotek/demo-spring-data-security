@@ -1,6 +1,6 @@
 package org.tutorial.core.entities.personalities;
 
-import org.tutorial.core.entities.Order;
+import org.tutorial.core.entities.CustomerOrder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -20,7 +20,7 @@ public class Customer extends LoggableUser
     private Manager responsibleManager;
 
     @OneToMany(mappedBy = "responsibleCustomer")
-    private List<Order> orders;
+    private List<CustomerOrder> customerOrders;
 
     public String getSummary()
     {
@@ -42,13 +42,13 @@ public class Customer extends LoggableUser
         this.responsibleManager = responsibleManager;
     }
 
-    public List<Order> getOrders()
+    public List<CustomerOrder> getCustomerOrders()
     {
-        return orders;
+        return customerOrders;
     }
 
-    public void setOrders(List<Order> orders)
+    public void setCustomerOrders(List<CustomerOrder> customerOrders)
     {
-        this.orders = orders;
+        this.customerOrders = customerOrders;
     }
 }

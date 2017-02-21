@@ -12,8 +12,8 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "CUSTOMER_ORDER") // Order is reserved word!
-public class Order
+@Table(name = "CUSTOMER_ORDER") // "Order" is reserved word!
+public class CustomerOrder
 {
     @Id
     @GeneratedValue
@@ -25,16 +25,18 @@ public class Order
     @Embedded
     private DatePoints datePoints;
 
+    private boolean completed = false;
+
     @ManyToOne
     private Customer responsibleCustomer;
 
     @ManyToOne
     private Manager responsibleManager;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "customerOrder")
     private List<OrderTask> orderTaskList;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "customerOrder")
     private List<Commentary> commentaries;
 
     public Long getId()
@@ -115,5 +117,15 @@ public class Order
     public void setCommentaries(List<Commentary> commentaries)
     {
         this.commentaries = commentaries;
+    }
+
+    public boolean isCompleted()
+    {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed)
+    {
+        this.completed = completed;
     }
 }
